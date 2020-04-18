@@ -104,19 +104,18 @@ def game_hash
 end
 
 def num_points_scored(player_name)
-game_hash.each do |team, team_data|
-  team_data[:players].each do |player|
-    if player[:player_name] == player_name
-      return player[:points]
+  game_hash.each do |team, team_data|
+   team_data[:players].each do |player|
+      if player[:player_name] == player_name
+        return player[:points]
+      end
     end
   end
 end
-end
-
 
 def shoe_size(player_name)
-  game_hash.each do |team, team_info|
-    team_info[:players].each do |player|
+  game_hash.each do |team, team_data|
+    team_data[:players].each do |player|
       if player[:player_name] == player_name
         return player[:shoe]
       end
@@ -124,10 +123,9 @@ def shoe_size(player_name)
   end
 end
 
-
-def team_colors(team)
-  if team.downcase == "charlotte hornets"
-    return game_hash[:away][:colors]
+def team_colors(team_input)
+  if team_input.downcase == "charlotte hornets"
+   return  game_hash[:away][:colors] 
   else
     return game_hash[:home][:colors]
   end
@@ -139,16 +137,16 @@ def team_names
     team_info[:team_name]
   end
 end
+  
 
-
-def player_numbers(data)
-array = []
-game_hash.each do |team, team_info|
-  if team_info[:team_name] == data
+def player_numbers(team_name)
+  array = []
+  game_hash.each do |team, team_info|
+    if team_info[:team_name] == team_name
     team_info.each do |key, value|
       if key == :players
         value.each do |player|
-          array.push(player[:number])
+            array << player[:number]
           end
         end
       end
@@ -158,15 +156,14 @@ game_hash.each do |team, team_info|
 end
 
 
-
-def player_stats(data)
+def player_stats(player_name)
   game_hash.each do |team, team_info|
     team_info.each do |key, value|
       if key == :players
         value.each do |player|
-          if data == player[:player_name]
-           player.delete(:player_name)
-          return player
+          if player_name == player[:player_name]
+            player.delete(:player_name) 
+            return player
           end
         end
       end
@@ -187,3 +184,7 @@ def big_shoe_rebounds
   end
   return rebounds
 end
+
+
+
+  
